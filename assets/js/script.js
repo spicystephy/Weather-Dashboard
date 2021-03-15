@@ -41,19 +41,19 @@ function citySearchBtn(event) {
       weatherCard.classList.add("card", "bg-light", "text-dark", "mb-3", "p-3");
       
       var dateTitle = document.createElement("h5");
-      dateTitle.innerHTML = new Date(weather.dt);
+      dateTitle.innerHTML = "Date: " + new Date(weather.dt);
       weatherCard.appendChild(dateTitle);
       
       var temp = document.createElement("p");
-      temp.innerHTML = weather.main.temp + " F";
+      temp.innerHTML = "Temperature: " + weather.main.temp + " F";
       weatherCard.appendChild(temp);
 
       var humidity = document.createElement("p");
-      humidity.innerHTML = weather.main.humidity + " %";
+      humidity.innerHTML = "Humidity: " + weather.main.humidity + " %";
       weatherCard.appendChild(humidity);
 
       var windSpeed = document.createElement("p");
-      windSpeed.innerHTML = weather.wind.speed + " mph";
+      windSpeed.innerHTML = "Wind Speed: " + weather.wind.speed + " mph";
       weatherCard.appendChild(windSpeed);
 
       var currentWeatherCard = document.createElement("div");
