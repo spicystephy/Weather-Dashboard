@@ -1,14 +1,15 @@
 var apiKey = "7700c46b2698574dd90c566760e9e94d";
 var searchFormEl = document.querySelector("#theForm");
 var cityInput = document.getElementById("#cityText");
-var searchBtn = document.querySelector("fa fa-seach");
+var searchBtn = document.querySelector("fa fa-search");
 var searchHistory = JSON.parse(localStorage.getItem("cities")) || [];
+var currentDate = moment().format("LLLL");
 
 // create event for submit button that grabs text from the text box
 //then do a fetch with the url with that text
 function citySearchBtn(event) {
   event.preventDefault();
-  var searchInput = document.querySelector("#cityText").value;
+  var searchInput = document.querySelector("#cityText").value.trim();
   searchHistory.push(searchInput);
   localStorage.setItem("cities", JSON.stringify(searchHistory));
   if (!searchInput) {
@@ -17,7 +18,7 @@ function citySearchBtn(event) {
   }
   var currentWeather =
     "https://api.openweathermap.org/data/2.5/weather?q=" +
-    searchInput + 
+    searchInput +
     "&units=imperial&appid=" +
     apiKey;
   //fetch api call
@@ -28,44 +29,68 @@ function citySearchBtn(event) {
 
       var lat = weather.coord.lat;
       var lon = weather.coord.lon;
-      var oneCall = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+
+      var oneCall = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`;
       fetch(oneCall)
         .then((data) => data.json())
         .then(function (oneCallData) {
+          displayCurrent(oneCallData);
           console.log(oneCallData);
+
+          var cityName = weather.name;
+
+          document.querySelector(".card").innerHTML = "";
+          var cityCard = document.createElement("div");
+          cityCard.innerHTML = "Current Weather for " + cityName;
+          cityCard.classList.add("card", "text-dark");
+
+          var currentCity = document.createElement("div");
+          currentCity.classList.add("cardBody");
+          cityCard.append(currentCity);
+          document.querySelector(".card").append(cityCard);
         });
-
-      document.querySelector(".card").innerHTML = "";
-      var weatherCard = document.createElement("div");
-      weatherCard.innerHTML = weather.name;
-      weatherCard.classList.add("card", "bg-light", "text-dark", "mb-3", "p-3");
-      
-      var dateTitle = document.createElement("h5");
-      dateTitle.innerHTML = "Date: " + new Date(weather.dt);
-      weatherCard.appendChild(dateTitle);
-      
-      var temp = document.createElement("p");
-      temp.innerHTML = "Temperature: " + weather.main.temp + " F";
-      weatherCard.appendChild(temp);
-
-      var humidity = document.createElement("p");
-      humidity.innerHTML = "Humidity: " + weather.main.humidity + " %";
-      weatherCard.appendChild(humidity);
-
-      var windSpeed = document.createElement("p");
-      windSpeed.innerHTML = "Wind Speed: " + weather.wind.speed + " mph";
-      weatherCard.appendChild(windSpeed);
-
-      var currentWeatherCard = document.createElement("div");
-      currentWeatherCard.classList.add("cardBody");
-      weatherCard.append(currentWeatherCard);
-      document.querySelector(".card").append(weatherCard);
     });
-
-  //display a part of this data inside weatherCard
 }
 searchFormEl.addEventListener("submit", citySearchBtn);
 
+function displayCurrent(oneCallData) {
+  document.querySelector(".card-body").innerHTML = "";
+  var weatherCard = document.createElement("div");
+
+  var currentWeatherCard = document.createElement("div");
+  currentWeatherCard.classList.add("cardBody");
+  weatherCard.append(currentWeatherCard);
+  document.querySelector(".card-body").append(weatherCard);
+
+  var dateTitle = document.createElement("p");
+  dateTitle.innerHTML = "<strong>Date:</strong> " + currentDate;
+  weatherCard.appendChild(dateTitle);
+
+  var temp = document.createElement("p");
+  temp.innerHTML =
+    "<strong>Temperature:</strong> " +
+    Math.round(oneCallData.current.temp) +
+    " F";
+  weatherCard.appendChild(temp);
+
+  var humidity = document.createElement("p");
+  humidity.innerHTML =
+    "<strong>Humidity:</strong> " + oneCallData.current.humidity + " %";
+  weatherCard.appendChild(humidity);
+
+  var windSpeed = document.createElement("p");
+  windSpeed.innerHTML =
+    "<strong>Wind Speed:</strong> " +
+    Math.round(oneCallData.current.wind_speed) +
+    " mph";
+  weatherCard.appendChild(windSpeed);
+
+  var uvIndex = document.createElement("p");
+  uvIndex.innerHTML = "<strong>UV Index:</strong> " + oneCallData.current.uvi;
+  weatherCard.appendChild(uvIndex);
+
+  //display a part of this data inside weatherCard
+}
 
 //function to create clickable list of cities
 function searchList() {
@@ -80,6 +105,3 @@ function searchList() {
     btnContainer.append(cityBtn);
   });
 }
-
-
-

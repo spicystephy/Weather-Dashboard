@@ -1,4 +1,4 @@
-.hero-section {
+/* .hero-section {
   background: url("https://images.pexels.com/photos/1162251/pexels-photo-1162251.jpeg") 50% no-repeat;
   background-size: cover;
   height: 45vh;
@@ -12,13 +12,13 @@
   -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
-}
+} */
 
-.hero-section .hero-section-text {
+/* .hero-section .hero-section-text {
   color: #fefefe;
   text-shadow: 1px 1px 2px #0a0a0a;
   font-size: xx-large;
-}
+} */
 
  * {
   box-sizing: border-box;
