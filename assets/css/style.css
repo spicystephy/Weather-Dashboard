@@ -56,12 +56,16 @@ form.saveBtn::after {
   display: table;
 } 
 
-#current-weather .card-body{
+.card-body{
   background-color: #a2c2dd;
 }
 
-#forecast .card-body{
-  background-color: #a2c2dd;
+div.card{
+  background-color: #4c7ba1;
+}
+
+.forecast{
+  background-color: #73b4e9;
 }
 /* #weatherCard{
 

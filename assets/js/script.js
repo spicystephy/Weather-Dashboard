@@ -30,11 +30,12 @@ function citySearchBtn(event) {
       var lat = weather.coord.lat;
       var lon = weather.coord.lon;
 
-      var oneCall = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`;
+      var oneCall = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude=minutely,hourly&appid=${apiKey}`;
       fetch(oneCall)
         .then((data) => data.json())
         .then(function (oneCallData) {
           displayCurrent(oneCallData);
+          renderForecast(oneCallData);
           console.log(oneCallData);
 
           var cityName = weather.name;
@@ -42,11 +43,7 @@ function citySearchBtn(event) {
           document.querySelector(".card").innerHTML = "";
           var cityCard = document.createElement("div");
           cityCard.innerHTML = "Current Weather for " + cityName;
-          cityCard.classList.add("card", "text-dark");
-
-          var currentCity = document.createElement("div");
-          currentCity.classList.add("cardBody");
-          cityCard.append(currentCity);
+          cityCard.classList.add("card");
           document.querySelector(".card").append(cityCard);
         });
     });
@@ -57,9 +54,9 @@ function displayCurrent(oneCallData) {
   document.querySelector(".card-body").innerHTML = "";
   var weatherCard = document.createElement("div");
 
-  var currentWeatherCard = document.createElement("div");
-  currentWeatherCard.classList.add("cardBody");
-  weatherCard.append(currentWeatherCard);
+  // var currentWeatherCard = document.createElement("div");
+  // currentWeatherCard.classList.add("cardBody");
+  // weatherCard.append(currentWeatherCard);
   document.querySelector(".card-body").append(weatherCard);
 
   var dateTitle = document.createElement("p");
@@ -92,6 +89,29 @@ function displayCurrent(oneCallData) {
   //display a part of this data inside weatherCard
 }
 
+function renderForecast(oneCallData) {
+  document.querySelector(".forecast").innerHTML = "";
+  var dailyCard = document.createElement("div");
+  document.querySelector(".forecast").append(dailyCard);
+
+  var dateTitle = document.createElement("p");
+  dateTitle.innerHTML = "<strong>Date:</strong> " + oneCallData.daily[0].dt;
+  dailyCard.appendChild(dateTitle);
+
+  var dayTemp = document.createElement("p");
+  dayTemp.innerHTML =
+    "<strong>Day Temperature:</strong> " +
+    Math.round(oneCallData.daily[0].temp.day) +
+    " F";
+  dailyCard.appendChild(dayTemp);
+
+  var nightTemp = document.createElement("p");
+  nightTemp.innerHTML =
+    "<strong>Day Temperature:</strong> " +
+    Math.round(oneCallData.daily[0].temp.night) +
+    " F";
+  dailyCard.appendChild(nightTemp);
+}
 //function to create clickable list of cities
 function searchList() {
   var btnContainer = document.querySelector(".searchHistory");
