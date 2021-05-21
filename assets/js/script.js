@@ -43,7 +43,7 @@ function citySearchBtn(event) {
           document.querySelector(".card").innerHTML = "";
           var cityCard = document.createElement("div");
           cityCard.innerHTML = "Current Weather for " + cityName;
-          cityCard.classList.add("card");
+          // cityCard.classList.add("card");
           document.querySelector(".card").append(cityCard);
         });
     });
@@ -58,6 +58,7 @@ function displayCurrent(oneCallData) {
   // currentWeatherCard.classList.add("cardBody");
   // weatherCard.append(currentWeatherCard);
   document.querySelector(".card-body").append(weatherCard);
+  // document.querySelector(".card").append(".card-body")
 
   var dateTitle = document.createElement("p");
   dateTitle.innerHTML = "<strong>Date:</strong> " + currentDate;
@@ -67,7 +68,7 @@ function displayCurrent(oneCallData) {
   temp.innerHTML =
     "<strong>Temperature:</strong> " +
     Math.round(oneCallData.current.temp) +
-    " F";
+    " °F";
   weatherCard.appendChild(temp);
 
   var humidity = document.createElement("p");
@@ -91,27 +92,28 @@ function displayCurrent(oneCallData) {
 
 function renderForecast(oneCallData) {
   document.querySelector(".forecast").innerHTML = "";
-  var dailyCard = document.createElement("div");
-  document.querySelector(".forecast").append(dailyCard);
 
-  var dateTitle = document.createElement("p");
-  dateTitle.innerHTML = "<strong>Date:</strong> " + oneCallData.daily[0].dt;
-  dailyCard.appendChild(dateTitle);
+  for (let i = 1; i < 6; i++) {
+    let n = oneCallData.daily[i];
+    var dailyCard = document.createElement("div");
 
-  var dayTemp = document.createElement("p");
-  dayTemp.innerHTML =
-    "<strong>Day Temperature:</strong> " +
-    Math.round(oneCallData.daily[0].temp.day) +
-    " F";
-  dailyCard.appendChild(dayTemp);
+    var dateTitle = document.createElement("p");
+    dateTitle.innerHTML = "<strong>Date:</strong> " + n.dt;
+    dailyCard.appendChild(dateTitle);
 
-  var nightTemp = document.createElement("p");
-  nightTemp.innerHTML =
-    "<strong>Day Temperature:</strong> " +
-    Math.round(oneCallData.daily[0].temp.night) +
-    " F";
-  dailyCard.appendChild(nightTemp);
+    var dayTemp = document.createElement("p");
+    dayTemp.innerHTML =
+      "<strong>High:</strong> " + Math.round(n.temp.day) + " °F";
+    dailyCard.appendChild(dayTemp);
+
+    var nightTemp = document.createElement("p");
+    nightTemp.innerHTML =
+      "<strong>Low:</strong> " + Math.round(n.temp.night) + " °F";
+    dailyCard.appendChild(nightTemp);
+    document.querySelector(".forecast").append(dailyCard);
+  }
 }
+
 //function to create clickable list of cities
 function searchList() {
   var btnContainer = document.querySelector(".searchHistory");
