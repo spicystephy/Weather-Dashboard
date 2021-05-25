@@ -52,7 +52,7 @@ form.saveBtn::after {
 }
 
 div.card {
-  background-color: rgb(241, 198, 178);
+  background-color: rgb(240, 197, 132);
 
   display: flex;
   flex-wrap: wrap;
@@ -74,7 +74,6 @@ div.card {
 }
 
 .forecast {
-  
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
@@ -86,10 +85,10 @@ div.card {
 }
 
 .forecast div {
-  background-color: rgb(214, 229, 240) ;
+  background-color: rgb(214, 229, 240);
   border-radius: 5px;
   border: 2px solid black;
-  
+
   font-size: 25px;
   display: flex;
   flex-direction: column;
