@@ -3,15 +3,7 @@
   background-size: cover;
   height: 45vh;
   text-align: center;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+
 } */
 
 /* .hero-section .hero-section-text {
@@ -20,29 +12,32 @@
   font-size: xx-large;
 } */
 
- * {
+* {
   box-sizing: border-box;
 }
 
-form.saveBtn input[type=text] {
+form.saveBtn input[type="text"] {
   padding: 10px;
-  font-size: 17px;
-  border: 1px solid grey;
+  font-size: 25px;
+
+  border: 1px solid;
   float: left;
-  width: 80%;
+  width: 30%;
   background: transparent;
 }
 
 form.saveBtn button {
-  float: left;
+  /* float: left;
   width: 20%;
   padding: 10px;
   background: #b2c8da;
   color: white;
   font-size: 17px;
   border: 1px solid grey;
-  border-left: none;
+  border-left: none; */
   cursor: pointer;
+  border: 1px solid;
+  width: 5%;
 }
 
 form.saveBtn button:hover {
@@ -54,19 +49,55 @@ form.saveBtn::after {
   content: "";
   clear: both;
   display: table;
-} 
-
-.card-body{
-  background-color: #a2c2dd;
 }
 
-div.card{
-  background-color: #4c7ba1;
+div.card {
+  background-color: rgb(241, 198, 178);
+
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  font-weight: bold;
+  font-size: 45px;
 }
 
-.forecast{
-  background-color: #73b4e9;
+.container {
+  background-color: rgb(75, 175, 189);
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  padding-top: 20px;
+  margin-bottom: 15px;
+  padding-bottom: 20px;
+  font-size: 25px;
+  font-weight: bold;
 }
-/* #weatherCard{
 
-} */
+.forecast {
+  
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+
+  padding-top: 20px;
+  margin-bottom: 15px;
+  padding-bottom: 20px;
+}
+
+.forecast div {
+  background-color: rgb(214, 229, 240) ;
+  border-radius: 5px;
+  border: 2px solid black;
+  
+  font-size: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+body {
+  background: url("/umbrellas.jpg") no-repeat;
+  /* background-image: linear-gradient(angle); */
+  background-size: cover;
+}

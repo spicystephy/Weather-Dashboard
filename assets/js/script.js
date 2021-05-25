@@ -2,7 +2,7 @@ var apiKey = "7700c46b2698574dd90c566760e9e94d";
 var searchFormEl = document.querySelector("#theForm");
 var cityInput = document.getElementById("#cityText");
 var searchBtn = document.querySelector("fa fa-search");
-var searchHistory = JSON.parse(localStorage.getItem("cities")) || [];
+var searchHistory = JSON.parse(localStorage.getItem("city name")) || [];
 var currentDate = moment().format("LLLL");
 
 // create event for submit button that grabs text from the text box
@@ -11,11 +11,12 @@ function citySearchBtn(event) {
   event.preventDefault();
   var searchInput = document.querySelector("#cityText").value.trim();
   searchHistory.push(searchInput);
-  localStorage.setItem("cities", JSON.stringify(searchHistory));
-  if (!searchInput) {
-    console.error("Enter a valid city name.");
-    return;
-  }
+  localStorage.setItem("city name", JSON.stringify(searchHistory));
+  // if (!searchInput) {
+  //   console.error("Enter a valid city name.");
+  //   return;
+  // }
+
   var currentWeather =
     "https://api.openweathermap.org/data/2.5/weather?q=" +
     searchInput +
@@ -26,6 +27,11 @@ function citySearchBtn(event) {
     .then((data) => data.json())
     .then(function (weather) {
       console.log(weather);
+
+      if (weather.cod === "404") {
+        window.alert("Enter a valid city.");
+        return;
+      }
 
       var lat = weather.coord.lat;
       var lon = weather.coord.lon;
@@ -42,7 +48,7 @@ function citySearchBtn(event) {
 
           document.querySelector(".card").innerHTML = "";
           var cityCard = document.createElement("div");
-          cityCard.innerHTML = "Current Weather for " + cityName;
+          cityCard.innerHTML = "Weather for " + cityName;
           // cityCard.classList.add("card");
           document.querySelector(".card").append(cityCard);
         });
@@ -51,14 +57,14 @@ function citySearchBtn(event) {
 searchFormEl.addEventListener("submit", citySearchBtn);
 
 function displayCurrent(oneCallData) {
-  document.querySelector(".card-body").innerHTML = "";
+  document.querySelector(".container").innerHTML = "";
   var weatherCard = document.createElement("div");
 
   // var currentWeatherCard = document.createElement("div");
   // currentWeatherCard.classList.add("cardBody");
   // weatherCard.append(currentWeatherCard);
-  document.querySelector(".card-body").append(weatherCard);
-  // document.querySelector(".card").append(".card-body")
+  document.querySelector(".container").append(weatherCard);
+  // document.querySelector(".card").append(".container")
 
   var dateTitle = document.createElement("p");
   dateTitle.innerHTML = "<strong>Date:</strong> " + currentDate;
@@ -87,6 +93,15 @@ function displayCurrent(oneCallData) {
   uvIndex.innerHTML = "<strong>UV Index:</strong> " + oneCallData.current.uvi;
   weatherCard.appendChild(uvIndex);
 
+  var icon = document.createElement("img");
+  icon.setAttribute(
+    "src",
+    "https://openweathermap.org/img/wn/" +
+      oneCallData.current.weather[0].icon +
+      ".png"
+  );
+  weatherCard.appendChild(icon);
+
   //display a part of this data inside weatherCard
 }
 
@@ -110,6 +125,18 @@ function renderForecast(oneCallData) {
     nightTemp.innerHTML =
       "<strong>Low:</strong> " + Math.round(n.temp.night) + " °F";
     dailyCard.appendChild(nightTemp);
+    document.querySelector(".forecast").append(dailyCard);
+
+    var icon = document.createElement("img");
+    icon.setAttribute(
+      "src",
+      "https://openweathermap.org/img/wn/" + n.weather[0].icon + ".png"
+    );
+    dailyCard.appendChild(icon);
+
+    var desc = document.createElement("p");
+    desc.innerHTML = n.weather[0].description;
+    dailyCard.appendChild(desc);
     document.querySelector(".forecast").append(dailyCard);
   }
 }
